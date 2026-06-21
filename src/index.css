@@ -62,6 +62,24 @@ body {
   }
 }
 
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33333%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-33.33333%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 /* Custom CSS Utilities */
 .accent-gradient {
   background: linear-gradient(90deg, #89AACC 0%, #4E85BF 100%);
@@ -78,6 +96,14 @@ body {
 
 .animate-gradient-shift {
   animation: gradient-shift 6s ease infinite;
+}
+
+.animate-marquee-left {
+  animation: marquee-left linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right linear infinite;
 }
 
 /* Halftone Pattern Overlay */

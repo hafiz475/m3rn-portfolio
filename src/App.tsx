@@ -8,6 +8,7 @@ import { SelectedWorks } from './components/SelectedWorks';
 import { Journal } from './components/Journal';
 import { JournalPostDetail } from './components/JournalPostDetail';
 import { Explorations } from './components/Explorations';
+import { TechStack } from './components/TechStack';
 import { Stats } from './components/Stats';
 import { Contact } from './components/Contact';
 
@@ -104,6 +105,9 @@ function App() {
 
                 {/* Explorations Parallax Gallery */}
                 <Explorations />
+
+                {/* Tech Stack marquees */}
+                <TechStack />
 
                 {/* Stats Section */}
                 <Stats />
