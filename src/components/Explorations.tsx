@@ -109,18 +109,7 @@ export const Explorations: React.FC = () => {
           <p className="text-sm md:text-base text-muted font-body leading-relaxed mt-2">
             A space for creative experiments, motion studies and visual explorations.
           </p>
-          <a
-            href="https://dribbble.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex relative group rounded-full text-xs font-semibold p-[1.5px] focus:outline-none w-fit overflow-visible"
-          >
-            <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(90deg, #ea4c89, #c13584)' }} />
-            <span className="relative flex items-center gap-2.5 bg-surface text-text-primary border border-white/5 rounded-full px-6 py-3 transition-colors duration-300">
-              <span className="w-4 h-4 rounded-full" style={{ background: '#ea4c89' }} />
-              View on Dribbble <span className="inline-block transform transition-transform duration-300 group-hover:translate-x-0.5">✦</span>
-            </span>
-          </a>
+
         </div>
       </div>
 
