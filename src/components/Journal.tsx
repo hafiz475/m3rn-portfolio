@@ -72,31 +72,26 @@ export const Journal: React.FC<JournalProps> = ({ onPostClick }) => {
                 </div>
               </div>
 
-              {/* Mobile Layout — compact card */}
+              {/* Mobile Layout — full-detail card */}
               <div className="flex sm:hidden bg-surface/30 hover:bg-surface border border-stroke rounded-2xl overflow-hidden transition-colors duration-300">
                 {/* Thumbnail */}
-                <div className="w-24 h-24 flex-shrink-0 overflow-hidden">
+                <div className="w-[100px] flex-shrink-0 overflow-hidden">
                   <img src={entry.image} alt={entry.title} className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110" />
                 </div>
 
                 {/* Content */}
-                <div className="flex-grow flex flex-col justify-center gap-1.5 px-4 py-3 min-w-0">
-                  <h3 className="text-[13px] font-semibold text-text-primary/90 group-hover:text-text-primary transition-colors duration-300 line-clamp-2 leading-snug">
+                <div className="flex-grow flex flex-col justify-center gap-2 px-3.5 py-3 min-w-0">
+                  <h3 className="text-[13px] font-semibold text-text-primary/90 group-hover:text-text-primary transition-colors duration-300 leading-snug">
                     {entry.title}
                   </h3>
-                  <div className="flex items-center gap-2 text-[10px] text-muted font-body">
-                    <span className="bg-surface/60 border border-white/5 px-1.5 py-0.5 rounded text-text-primary/70 font-mono truncate max-w-[80px]">{entry.category}</span>
+                  <span className="bg-surface/60 border border-white/5 px-2 py-0.5 rounded text-[10px] text-text-primary/70 font-mono self-start">{entry.category}</span>
+                  <div className="flex items-center gap-2 text-[10px] text-muted font-body pt-0.5">
                     <div className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       <span>{entry.readTime}</span>
                     </div>
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                <div className="flex items-center justify-center pr-3 flex-shrink-0">
-                  <div className="w-8 h-8 rounded-full border border-stroke flex items-center justify-center group-hover:bg-text-primary group-hover:border-transparent transition-all duration-300">
-                    <span className="text-text-primary group-hover:text-bg text-xs">↗</span>
+                    <span className="w-1 h-1 bg-stroke rounded-full" />
+                    <span>{entry.date}</span>
                   </div>
                 </div>
               </div>

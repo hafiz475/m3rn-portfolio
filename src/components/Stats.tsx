@@ -11,22 +11,16 @@ interface StatItem {
 const STATS: StatItem[] = [
   {
     id: 'stat-1',
-    value: '20+',
+    value: '4+',
     label: 'Years Experience',
-    subtext: 'Pioneering design and code paradigms since the early web.'
+    subtext: 'Building scalable products and high-performance interactive web systems.'
   },
   {
     id: 'stat-2',
-    value: '95+',
+    value: '20+',
     label: 'Projects Done',
     subtext: 'Delivering end-to-end products for startups and enterprises.'
   },
-  {
-    id: 'stat-3',
-    value: '200%',
-    label: 'Satisfied Clients',
-    subtext: 'Exceeding developer velocity and design accuracy benchmarks.'
-  }
 ];
 
 export const Stats: React.FC = () => {
