@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Mail, Phone, MapPin, ExternalLink, Send } from "lucide-react";
-import Hls from "hls.js";
 import { WordsPullUp } from "./WordsPullUp";
 
 export const Contact: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   const [formState, setFormState] = useState({
@@ -16,34 +14,7 @@ export const Contact: React.FC = () => {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
 
-    const streamUrl =
-      "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
-
-    if (Hls.isSupported()) {
-      const hls = new Hls({
-        maxMaxBufferLength: 10,
-        enableWorker: true,
-      });
-      hls.loadSource(streamUrl);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch((e) => console.log("HLS contact play error:", e));
-      });
-
-      return () => hls.destroy();
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = streamUrl;
-      video.addEventListener("loadedmetadata", () => {
-        video
-          .play()
-          .catch((e) => console.log("Native HLS contact play error:", e));
-      });
-    }
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,23 +42,8 @@ export const Contact: React.FC = () => {
   return (
     <section
       id="contact"
-      className="w-full bg-bg py-24 px-4 sm:px-6 md:px-8 border-t border-stroke text-left select-none relative overflow-hidden"
+      className="w-full bg-transparent py-24 px-4 sm:px-6 md:px-8 border-t border-stroke text-left select-none relative overflow-hidden"
     >
-      {/* Background Video (Flipped Vertically) */}
-      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black">
-        <video
-          ref={videoRef}
-          muted
-          loop
-          playsInline
-          autoPlay
-          className="absolute inset-0 w-full h-full object-cover opacity-60 scale-y-[-1]"
-        />
-        {/* Darker overlay */}
-        <div className="absolute inset-0 bg-black/65 z-0" />
-        {/* Top fade */}
-        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-bg to-transparent z-[1]" />
-      </div>
 
       <div className="max-w-6xl mx-auto flex flex-col items-center relative z-10">
         {/* Section Title */}

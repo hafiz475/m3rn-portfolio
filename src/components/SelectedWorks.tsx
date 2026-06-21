@@ -99,7 +99,7 @@ export const SelectedWorks: React.FC = () => {
   }, []);
 
   return (
-    <section id="work" className="bg-bg py-20 md:py-28 select-none text-left relative overflow-hidden">
+    <section id="work" className="bg-transparent py-20 md:py-28 select-none text-left relative overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16 flex flex-col items-center">
 
         {/* Header */}

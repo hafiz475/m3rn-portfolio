@@ -9,7 +9,7 @@ interface JournalProps {
 
 export const Journal: React.FC<JournalProps> = ({ onPostClick }) => {
   return (
-    <section id="journal" className="bg-bg py-20 md:py-28 overflow-hidden select-none">
+    <section id="journal" className="relative z-10 bg-transparent py-20 md:py-28 overflow-hidden select-none">
       <div className="max-w-[1200px] mx-auto px-5 md:px-10 lg:px-16">
         
         {/* Header */}

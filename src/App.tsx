@@ -11,6 +11,7 @@ import { Explorations } from './components/Explorations';
 import { TechStack } from './components/TechStack';
 import { Stats } from './components/Stats';
 import { Contact } from './components/Contact';
+import { GlobalVideoBackground } from './components/GlobalVideoBackground';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -67,7 +68,9 @@ function App() {
       </AnimatePresence>
 
       {!isLoading && (
-        <div className="relative min-h-screen bg-bg text-text-primary selection:bg-text-primary/25 selection:text-text-primary md:cursor-none">
+        <div className="relative min-h-screen text-text-primary selection:bg-text-primary/25 selection:text-text-primary md:cursor-none">
+          {/* Global Video Background */}
+          {!selectedPostId && <GlobalVideoBackground />}
           {/* Custom Cursor (desktop only) */}
           <CustomCursor />
 

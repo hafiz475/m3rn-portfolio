@@ -25,7 +25,7 @@ const STATS: StatItem[] = [
 
 export const Stats: React.FC = () => {
   return (
-    <section className="bg-bg py-20 md:py-28 overflow-hidden select-none border-b border-stroke">
+    <section className="relative z-10 bg-transparent py-20 md:py-28 overflow-hidden select-none border-b border-stroke">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 lg:gap-16">
           
