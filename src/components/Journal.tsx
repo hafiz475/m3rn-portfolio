@@ -1,52 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { JOURNAL_POSTS } from './JournalPostDetail';
 
-// Reuse generated assets for visual consistency
-import img1 from '../assets/project_automotive.png';
-import img2 from '../assets/project_architecture.png';
-import img3 from '../assets/project_human.png';
-import img4 from '../assets/project_brand.png';
-
-interface JournalEntry {
-  id: string;
-  title: string;
-  date: string;
-  readTime: string;
-  image: string;
+interface JournalProps {
+  onPostClick?: (postId: string) => void;
 }
 
-const ENTRIES: JournalEntry[] = [
-  {
-    id: 'entry-1',
-    title: 'The Art of Cinematic Web Interaction',
-    date: 'Jun 18, 2026',
-    readTime: '5 min read',
-    image: img1,
-  },
-  {
-    id: 'entry-2',
-    title: 'Brutalist Concrete Aesthetics in Modern UI',
-    date: 'Jun 12, 2026',
-    readTime: '4 min read',
-    image: img2,
-  },
-  {
-    id: 'entry-3',
-    title: 'Deep Dive into HLS Streaming Performance',
-    date: 'May 28, 2026',
-    readTime: '8 min read',
-    image: img3,
-  },
-  {
-    id: 'entry-4',
-    title: 'The Nuances of Motion Design and Physics',
-    date: 'May 15, 2026',
-    readTime: '6 min read',
-    image: img4,
-  },
-];
-
-export const Journal: React.FC = () => {
+export const Journal: React.FC<JournalProps> = ({ onPostClick }) => {
   return (
     <section id="journal" className="bg-bg py-20 md:py-28 overflow-hidden select-none">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
@@ -65,10 +25,10 @@ export const Journal: React.FC = () => {
               <span className="text-xs text-muted uppercase tracking-[0.3em] font-body font-bold">Journal</span>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl text-text-primary font-display font-medium leading-none">
-              Recent <span className="italic">thoughts</span>
+              Recent <span className="italic font-serif">thoughts</span>
             </h2>
             <p className="text-sm md:text-base text-muted font-body leading-relaxed mt-2">
-              Writing about design philosophy, front-end details, and interactive systems.
+              Writing about design philosophy, front-end details, and artificial intelligence systems.
             </p>
           </div>
 
@@ -83,13 +43,14 @@ export const Journal: React.FC = () => {
 
         {/* Entries List */}
         <div className="flex flex-col gap-4 md:gap-5">
-          {ENTRIES.map((entry, index) => (
+          {JOURNAL_POSTS.map((entry, index) => (
             <motion.div
               key={entry.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              onClick={() => onPostClick && onPostClick(entry.id)}
               className="flex items-center gap-4 sm:gap-6 p-3 sm:p-4 bg-surface/30 hover:bg-surface border border-stroke rounded-[40px] sm:rounded-full group cursor-pointer transition-colors duration-300"
             >
               {/* Image Circle */}
@@ -109,8 +70,9 @@ export const Journal: React.FC = () => {
                 
                 {/* Meta details */}
                 <div className="flex items-center gap-4 text-xs text-muted font-body flex-shrink-0">
+                  <span className="bg-surface/50 border border-white/5 px-2 py-0.5 rounded text-[10px] text-text-primary font-mono">{entry.category}</span>
                   <span>{entry.readTime}</span>
-                  <span className="w-1 h-1 bg-stroke rounded-full" />
+                  <span className="w-1.5 h-1.5 bg-stroke rounded-full" />
                   <span>{entry.date}</span>
                 </div>
               </div>

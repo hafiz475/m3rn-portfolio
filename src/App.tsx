@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { SelectedWorks } from './components/SelectedWorks';
 import { Journal } from './components/Journal';
+import { JournalPostDetail } from './components/JournalPostDetail';
 import { Explorations } from './components/Explorations';
 import { Stats } from './components/Stats';
 import { Contact } from './components/Contact';
@@ -13,10 +14,11 @@ import { Contact } from './components/Contact';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
 
   // Track active section via IntersectionObserver for navbar synchronization
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || selectedPostId) return;
 
     const sections = ['home', 'work', 'journal', 'playground', 'contact'];
     const observers = sections.map((id) => {
@@ -44,7 +46,7 @@ function App() {
         if (obs) obs.observer.unobserve(obs.el);
       });
     };
-  }, [isLoading]);
+  }, [isLoading, selectedPostId]);
 
   // Smooth scroll handler
   const handleNavClick = (sectionId: string) => {
@@ -68,32 +70,49 @@ function App() {
           {/* Custom Cursor (desktop only) */}
           <CustomCursor />
 
-          {/* Navigation */}
-          <Navbar activeSection={activeSection} onNavClick={handleNavClick} />
-
-          {/* Sections */}
-          <main>
-            {/* Hero Section */}
-            <Hero
-              onSeeWorksClick={() => handleNavClick('work')}
-              onReachOutClick={() => handleNavClick('contact')}
+          {selectedPostId ? (
+            <JournalPostDetail
+              postId={selectedPostId}
+              onBack={() => {
+                setSelectedPostId(null);
+                setTimeout(() => {
+                  const el = document.getElementById('journal');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'auto' });
+                  }
+                }, 50);
+              }}
             />
+          ) : (
+            <>
+              {/* Navigation */}
+              <Navbar activeSection={activeSection} onNavClick={handleNavClick} />
 
-            {/* Selected Works Bento Grid */}
-            <SelectedWorks />
+              {/* Sections */}
+              <main>
+                {/* Hero Section */}
+                <Hero
+                  onSeeWorksClick={() => handleNavClick('work')}
+                  onReachOutClick={() => handleNavClick('contact')}
+                />
 
-            {/* Journal Entries */}
-            <Journal />
+                {/* Selected Works Bento Grid */}
+                <SelectedWorks />
 
-            {/* Explorations Parallax Gallery */}
-            <Explorations />
+                {/* Journal Entries */}
+                <Journal onPostClick={(postId) => setSelectedPostId(postId)} />
 
-            {/* Stats Section */}
-            <Stats />
+                {/* Explorations Parallax Gallery */}
+                <Explorations />
 
-            {/* Contact Section */}
-            <Contact />
-          </main>
+                {/* Stats Section */}
+                <Stats />
+
+                {/* Contact Section */}
+                <Contact />
+              </main>
+            </>
+          )}
         </div>
       )}
     </>
