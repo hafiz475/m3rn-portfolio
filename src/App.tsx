@@ -12,11 +12,13 @@ import { TechStack } from './components/TechStack';
 import { Stats } from './components/Stats';
 import { Contact } from './components/Contact';
 import { GlobalVideoBackground } from './components/GlobalVideoBackground';
+import { CompassModal } from './components/CompassModal';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [isCompassOpen, setIsCompassOpen] = useState(false);
 
   // Track active section via IntersectionObserver for navbar synchronization
   useEffect(() => {
@@ -90,7 +92,7 @@ function App() {
           ) : (
             <>
               {/* Navigation */}
-              <Navbar activeSection={activeSection} onNavClick={handleNavClick} />
+              <Navbar activeSection={activeSection} onNavClick={handleNavClick} onCompassClick={() => setIsCompassOpen(true)} />
 
               {/* Sections */}
               <main>
@@ -122,6 +124,11 @@ function App() {
           )}
         </div>
       )}
+      <AnimatePresence>
+        {isCompassOpen && (
+          <CompassModal onClose={() => setIsCompassOpen(false)} />
+        )}
+      </AnimatePresence>
     </>
   );
 }

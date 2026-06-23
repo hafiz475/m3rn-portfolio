@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Compass } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
   onNavClick: (sectionId: string) => void;
+  onCompassClick: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, onCompassClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoHovered, setLogoHovered] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -41,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick }) => 
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-6 px-4 select-none">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center pt-4 md:pt-6 px-4 select-none gap-3">
         <motion.div
           animate={{
             boxShadow: isScrolled ? '0 10px 30px -10px rgba(0,0,0,0.7)' : '0 0px 0px rgba(0,0,0,0)',
@@ -124,6 +126,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick }) => 
             </div>
           </button>
         </motion.div>
+
+        {/* Floating Compass Button */}
+        <button
+          onClick={onCompassClick}
+          className="w-11 h-11 rounded-full border border-white/10 bg-surface/30 hover:bg-surface/60 backdrop-blur-md flex items-center justify-center text-text-primary hover:text-accent hover:border-white/20 transition-all duration-300 hover:scale-105 pointer-events-auto shadow-lg shadow-black/30 shrink-0"
+          title="Locate Hafiz"
+        >
+          <Compass className="w-5 h-5 animate-spin-slow" />
+        </button>
       </nav>
 
       {/* Mobile Full-Screen Overlay Menu */}
