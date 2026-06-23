@@ -19,6 +19,20 @@ export const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formState.name && formState.email && formState.message) {
+      const recipient = "mohammed.hafiz.4755@gmail.com";
+      const subject = encodeURIComponent(`Portfolio Message from ${formState.name}`);
+      const body = encodeURIComponent(
+        `Hello Hafiz,\n\n` +
+        `You have received a new message from your portfolio website:\n\n` +
+        `Sender Name: ${formState.name}\n` +
+        `Sender Email: ${formState.email}\n\n` +
+        `Message:\n${formState.message}\n\n` +
+        `Best regards,\n` +
+        `${formState.name}`
+      );
+      
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
