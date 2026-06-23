@@ -193,7 +193,7 @@ export const Contact: React.FC = () => {
             variants={fadeUpVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="lg:col-span-7 bg-surface border border-stroke rounded-2xl p-6 sm:p-8 w-full shadow-2xl relative"
+            className="lg:col-span-7 bg-surface/30 hover:bg-surface border border-stroke rounded-2xl p-6 sm:p-8 w-full shadow-2xl relative transition-colors duration-300"
           >
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">

@@ -155,11 +155,13 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction, speed = 30 })
   const animClass = direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right';
 
   return (
-    <div className="relative w-full overflow-hidden py-2">
-      {/* Side gradients inside the card panel wrapper */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-24 z-10 bg-gradient-to-r from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-24 z-10 bg-gradient-to-l from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent" />
-
+    <div 
+      className="relative w-full overflow-hidden py-2"
+      style={{
+        WebkitMaskImage: 'linear-gradient(to right, transparent, white 10%, white 90%, transparent)',
+        maskImage: 'linear-gradient(to right, transparent, white 10%, white 90%, transparent)',
+      }}
+    >
       <div
         className={`flex gap-3 sm:gap-4 w-max ${animClass}`}
         style={{ animationDuration: `${speed}s` }}
@@ -226,7 +228,7 @@ export const TechStack: React.FC = () => {
         </motion.div>
 
         {/* Constrained Glassy Panel Container */}
-        <div className="bg-[#0c0c0c] border border-stroke rounded-[32px] p-6 sm:p-8 md:p-10 flex flex-col gap-8 overflow-hidden relative shadow-2xl">
+        <div className="bg-surface/30 border border-stroke rounded-[32px] p-6 sm:p-8 md:p-10 flex flex-col gap-8 overflow-hidden relative shadow-2xl">
           {ROWS.map((row, i) => (
             <motion.div
               key={row.label}
@@ -245,7 +247,7 @@ export const TechStack: React.FC = () => {
               </div>
 
               {/* Marquee Track */}
-              <MarqueeRow items={row.items} direction={row.direction} speed={row.speed} />
+              <MarqueeRow items={row.items} direction={row.direction as 'left' | 'right'} speed={row.speed} />
             </motion.div>
           ))}
         </div>
