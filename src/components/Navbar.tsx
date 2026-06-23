@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass } from 'lucide-react';
+import { Compass, MessageSquare } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
@@ -109,8 +109,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, onCom
             className="hidden md:inline-flex relative text-sm rounded-full py-2 group items-center justify-center focus:outline-none overflow-visible"
           >
             <span className="absolute inset-[-2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-            <span className="flex items-center gap-1 bg-surface group-hover:bg-bg/95 rounded-full px-4.5 py-2 text-text-primary border border-white/5 transition-colors duration-300">
-              Say hi <span className="inline-block transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            <span className="flex items-center gap-2 bg-surface group-hover:bg-bg/95 rounded-full px-6 py-2 text-text-primary border border-white/5 transition-colors duration-300">
+              Say hi 
+              <MessageSquare className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
             </span>
           </a>
 
@@ -175,11 +176,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, onCom
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.3, delay: navLinks.length * 0.06 }}
               onClick={() => handleMobileNav('contact')}
-              className="mt-4 relative rounded-full text-sm font-semibold p-[1.5px] focus:outline-none w-[60%]"
+              className="mt-4 relative rounded-full text-sm font-semibold p-[1.5px] focus:outline-none w-[60%] group"
             >
               <span className="absolute inset-0 rounded-full accent-gradient" />
               <span className="relative flex items-center justify-center gap-2 bg-surface text-text-primary rounded-full py-3.5 text-base">
-                Say hi <span>↗</span>
+                Say hi 
+                <MessageSquare className="w-4 h-4" />
               </span>
             </motion.button>
           </motion.div>
