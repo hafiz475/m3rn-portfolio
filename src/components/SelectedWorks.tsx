@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, X, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, ExternalLink, Globe, Brain, Bot, Droplet, Calculator } from 'lucide-react';
 
 import imgNippon from '../assets/proj_nippon_paints.png';
 import imgBuckman from '../assets/proj_buckman_chemical.png';
@@ -12,6 +12,13 @@ import imgAiJob from '../assets/proj_ai_job.png';
 import imgChatbot from '../assets/proj_smart_chatbot.png';
 import imgWatermap from '../assets/proj_watermap.png';
 import imgHissab from '../assets/proj_hissab.png';
+
+// Company logo imports
+import logoNippon from '../assets/nippon.png';
+import logoBuckman from '../assets/buckman.png';
+import logoBizmagnets from '../assets/bizmagnets.png';
+import logoChatops from '../assets/chatops.png';
+import logoCarzmoto from '../assets/carzmoto.png';
 
 interface Project {
   title: string;
@@ -26,6 +33,9 @@ interface Project {
   highlights: string[];
   liveLink?: string;
   githubLink?: string;
+  logo?: string;
+  placeholderIcon?: React.ComponentType<any>;
+  neonColor?: string;
 }
 
 const PROJECTS: Project[] = [
@@ -35,15 +45,13 @@ const PROJECTS: Project[] = [
     category: "Enterprise E-Commerce",
     year: "2021–2022",
     image: imgNippon,
+    logo: logoNippon,
     tech: ["React", "Redux", "Kendo UI", "SCSS", "Razorpay"],
     description: "Built enterprise e-commerce workflows including cart, checkout, payments, and order management for a high-traffic retail paint platform.",
     longDescription: `Nippon Paints is one of the largest paint manufacturers in Asia, and the Ninja CRM platform was designed to digitize their entire field sales and retail operations. As a frontend developer at Ideassion Technology Solutions, I was responsible for architecting and developing the complete checkout, cart, payment integration, and order management flows for the high-traffic e-commerce platform using React, Redux, Kendo React, JavaScript, and SCSS.
-
-The platform featured a sophisticated tab-based checkout journey with Redux state management that tracked every stage of the purchase funnel — from product selection through address validation, payment processing via Razorpay, and order confirmation. I designed responsive SCSS styling with Kendo React's enterprise component library to ensure pixel-perfect rendering across all device types, contributing to an estimated 20% increase in transaction completion rates.
-
-One of the most fascinating engineering challenges was integrating a computer vision module built with Python. The system used AI to segment house components — walls, doors, windows, trims — from uploaded photographs. Customers could then change the color of individual components and preview exactly how their house would look after painting. This AR-like experience was seamlessly embedded into the CRM, allowing field sales representatives to demo paint colors on-site using just a tablet.
-
-The billing module enabled field agents to capture house measurement details, generate instant quotations, and process orders directly from the CRM tablet interface. This eliminated paper-based workflows and reduced order processing time by over 40%.`,
+\nThe platform featured a sophisticated tab-based checkout journey with Redux state management that tracked every stage of the purchase funnel — from product selection through address validation, payment processing via Razorpay, and order confirmation. I designed responsive SCSS styling with Kendo React's enterprise component library to ensure pixel-perfect rendering across all device types, contributing to an estimated 20% increase in transaction completion rates.
+\nOne of the most fascinating engineering challenges was integrating a computer vision module built with Python. The system used AI to segment house components — walls, doors, windows, trims — from uploaded photographs. Customers could then change the color of individual components and preview exactly how their house would look after painting. This AR-like experience was seamlessly embedded into the CRM, allowing field sales representatives to demo paint colors on-site using just a tablet.
+\nThe billing module enabled field agents to capture house measurement details, generate instant quotations, and process orders directly from the CRM tablet interface. This eliminated paper-based workflows and reduced order processing time by over 40%.`,
     quote: "Paint is not just color — it's the language of transformation. We gave every homeowner the power to see their future before a single brushstroke.",
     highlights: [
       "Streamlined checkout journey with tab navigation and Redux state management",
@@ -61,17 +69,14 @@ The billing module enabled field agents to capture house measurement details, ge
     category: "Industrial IoT Dashboard",
     year: "2023",
     image: imgBuckman,
+    logo: logoBuckman,
     tech: ["React", "Redux-Saga", "Material UI", ".NET", "PostgreSQL", "Azure"],
     description: "Developed real-time industrial monitoring dashboards for cooling systems with predictive analytics and live sensor visualization.",
     longDescription: `Buckman is a global specialty chemical company headquartered in Memphis, Tennessee, serving industries including pulp & paper, water treatment, leather processing, and industrial cooling. Their Ackumen™ platform is a cutting-edge digital IoT solution that provides real-time monitoring, predictive maintenance, and performance optimization for industrial cooling towers and water treatment systems worldwide.
-
-As a frontend engineer at Ideassion Technology Solutions, I owned the architecture and development of the real-time monitoring dashboards that processed thousands of sensor data points daily. The technology stack comprised React with Redux-Saga for complex asynchronous data orchestration, Material UI and Bootstrap for the design system, a .NET backend, PostgreSQL database, and Azure cloud infrastructure.
-
-The platform encompassed multiple sophisticated modules including Absorbency Aid monitoring, Beamhouse process tracking, Boilout cycle management, Busan 1078 bactericide dosing control, Charge Control systems, Chelants/Metals Management dashboards, Defoamer monitoring for both BSW Wash Aids and Paper Machine applications, and comprehensive cooling tower performance analytics. Each module featured live sensor feeds, historical trend charts, threshold alerts, and predictive maintenance indicators.
-
-I enhanced the asynchronous data flows using Redux-Saga's generator-based side effect management, which improved dashboard response times by 40%. The saga middleware pattern enabled complex data orchestration — polling IoT endpoints, debouncing sensor updates, managing WebSocket reconnections, and coordinating multi-step API sequences — all while maintaining a responsive and flicker-free user experience.
-
-Working with an 8-person cross-functional team, I designed intuitive sensor-driven interfaces that helped plant operators make critical decisions about chemical dosing, system maintenance scheduling, and performance optimization in real-time industrial environments.`,
+\nAs a frontend engineer at Ideassion Technology Solutions, I owned the architecture and development of the real-time monitoring dashboards that processed thousands of sensor data points daily. The technology stack comprised React with Redux-Saga for complex asynchronous data orchestration, Material UI and Bootstrap for the design system, a .NET backend, PostgreSQL database, and Azure cloud infrastructure.
+\nThe platform encompassed multiple sophisticated modules including Absorbency Aid monitoring, Beamhouse process tracking, Boilout cycle management, Busan 1078 bactericide dosing control, Charge Control systems, Chelants/Metals Management dashboards, Defoamer monitoring for both BSW Wash Aids and Paper Machine applications, and comprehensive cooling tower performance analytics. Each module featured live sensor feeds, historical trend charts, threshold alerts, and predictive maintenance indicators.
+\nI enhanced the asynchronous data flows using Redux-Saga's generator-based side effect management, which improved dashboard response times by 40%. The saga middleware pattern enabled complex data orchestration — polling IoT endpoints, debouncing sensor updates, managing WebSocket reconnections, and coordinating multi-step API sequences — all while maintaining a responsive and flicker-free user experience.
+\nWorking with an 8-person cross-functional team, I designed intuitive sensor-driven interfaces that helped plant operators make critical decisions about chemical dosing, system maintenance scheduling, and performance optimization in real-time industrial environments.`,
     quote: "In industrial operations, every millisecond of delayed data can cost thousands. We engineered dashboards that made complex sensor telemetry feel effortless.",
     highlights: [
       "Real-time monitoring dashboards processing thousands of sensor data points daily",
@@ -89,17 +94,14 @@ Working with an 8-person cross-functional team, I designed intuitive sensor-driv
     category: "SaaS Platform",
     year: "2024–Present",
     image: imgBizmagnets,
+    logo: logoBizmagnets,
     tech: ["React", "TypeScript", "Redux Thunk", "Socket.IO", "Vite"],
     description: "Engineered scalable CRM modules including shared inbox, chatbot builder, campaigns, ticketing, and real-time messaging.",
     longDescription: `BizMagnets is a comprehensive SaaS platform that empowers businesses to manage their entire customer engagement lifecycle through WhatsApp-based communication workflows. As the Senior Frontend Engineer, I own the architecture and development of the core platform using React, TypeScript, Vite, and Redux Thunk — powering 100+ business clients and 8,000+ end-user interactions monthly across high-volume customer engagement workflows.
-
-I defined the scalable frontend architecture patterns, reusable component library, and Redux-based state management conventions that were adopted across all product modules. The platform's module ecosystem spans shared inbox management, campaign orchestration, lead capture workflows, ticketing systems, and a sophisticated no-code chatbot builder — each designed for maximum reusability and minimal coupling.
-
-The drag-and-drop no-code chatbot workflow builder was built entirely from scratch. It enables businesses to visually design conversational flows using a node-based editor with conditional branching, API integrations, media attachments, and template message triggers. This module alone reduced manual bot configuration time by 60%, allowing non-technical team members to deploy complex automation sequences within minutes.
-
-Real-time communication is powered by Socket.IO, reliably supporting 2,000+ concurrent live connections daily. The architecture uses memoization strategies, lazy-loaded module boundaries, and optimized Redux state updates to ensure smooth real-time message delivery without UI jank or memory leaks. I spearheaded frontend performance initiatives including code splitting, tree shaking, and bundle size optimization that cut component re-render latency by 35% and significantly boosted Core Web Vitals scores.
-
-I established frontend testing standards using Jest and @testing-library/react, implementing comprehensive unit and component test coverage for critical workflows. Additionally, I mentor 2 junior frontend engineers through daily code reviews, knowledge-sharing sessions, and PR approval workflows.`,
+\nI defined the scalable frontend architecture patterns, reusable component library, and Redux-based state management conventions that were adopted across all product modules. The platform's module ecosystem spans shared inbox management, campaign orchestration, lead capture workflows, ticketing systems, and a sophisticated no-code chatbot builder — each designed for maximum reusability and minimal coupling.
+\nThe drag-and-drop no-code chatbot workflow builder was built entirely from scratch. It enables businesses to visually design conversational flows using a node-based editor with conditional branching, API integrations, media attachments, and template message triggers. This module alone reduced manual bot configuration time by 60%, allowing non-technical team members to deploy complex automation sequences within minutes.
+\nReal-time communication is powered by Socket.IO, reliably supporting 2,000+ concurrent live connections daily. The architecture uses memoization strategies, lazy-loaded module boundaries, and optimized Redux state updates to ensure smooth real-time message delivery without UI jank or memory leaks. I spearheaded frontend performance initiatives including code splitting, tree shaking, and bundle size optimization that cut component re-render latency by 35% and significantly boosted Core Web Vitals scores.
+\nI established frontend testing standards using Jest and @testing-library/react, implementing comprehensive unit and component test coverage for critical workflows. Additionally, I mentor 2 junior frontend engineers through daily code reviews, knowledge-sharing sessions, and PR approval workflows.`,
     quote: "Great SaaS is invisible infrastructure — it disappears into the workflow. We built BizMagnets so businesses could focus on conversations, not configuration.",
     highlights: [
       "Powering 100+ business clients and 8K+ monthly end-user interactions",
@@ -117,17 +119,14 @@ I established frontend testing standards using Jest and @testing-library/react, 
     category: "Healthcare Workflow",
     year: "2024–Present",
     image: imgChatops,
+    logo: logoChatops,
     tech: ["React", "TypeScript", "Jenkins", "GitLab", "Nginx", "DigitalOcean"],
     description: "Built hospital workflow solutions for patient discharge, escalations, and real-time coordination across healthcare teams.",
     longDescription: `ChatsOps Health is a healthcare communication platform designed to streamline hospital workflows, particularly focused on patient discharge coordination, clinical escalations, and real-time team handoff processes. As part of the founding engineering team at BizMagnets, I owned the delivery of real-time workflow systems now deployed across 80+ hospitals.
-
-The platform addresses one of healthcare's most persistent bottlenecks: discharge coordination delays. In a typical hospital, discharge involves multiple departments — physicians, nursing staff, pharmacy, billing, transport, and housekeeping — each with their own communication silos. ChatsOps Health unifies these teams through structured real-time workflows that track every patient's discharge journey from physician order to final departure.
-
-I delivered approximately 70% of the core production frontend modules as part of the founding engineering team. The system features real-time status boards showing patient flow across departments, automated escalation triggers when discharge milestones are delayed, and notification systems that alert relevant team members at each stage of the process. These interventions reduced discharge coordination delays by 30% across deployed hospitals.
-
-The technology infrastructure leverages React with TypeScript for type-safe frontend development, while the DevOps pipeline uses GitLab for version control, Jenkins for continuous integration and deployment automation, and production hosting on DigitalOcean with Nginx reverse proxy configuration. I managed the complete CI/CD pipeline, ensuring zero-downtime deployments and rapid iteration cycles that healthcare clients demand.
-
-Working in healthcare technology required exceptional attention to reliability, data sensitivity, and user experience design for clinical staff who operate under extreme time pressure. Every interface decision was optimized for speed and clarity — minimal clicks, maximum context, and instant feedback.`,
+\nThe platform addresses one of healthcare's most persistent bottlenecks: discharge coordination delays. In a typical hospital, discharge involves multiple departments — physicians, nursing staff, pharmacy, billing, transport, and housekeeping — each with their own communication silos. ChatsOps Health unifies these teams through structured real-time workflows that track every patient's discharge journey from physician order to final departure.
+\nI delivered approximately 70% of the core production frontend modules as part of the founding engineering team. The system features real-time status boards showing patient flow across departments, automated escalation triggers when discharge milestones are delayed, and notification systems that alert relevant team members at each stage of the process. These interventions reduced discharge coordination delays by 30% across deployed hospitals.
+\nThe technology infrastructure leverages React with TypeScript for type-safe frontend development, while the DevOps pipeline uses GitLab for version control, Jenkins for continuous integration and deployment automation, and production hosting on DigitalOcean with Nginx reverse proxy configuration. I managed the complete CI/CD pipeline, ensuring zero-downtime deployments and rapid iteration cycles that healthcare clients demand.
+\nWorking in healthcare technology required exceptional attention to reliability, data sensitivity, and user experience design for clinical staff who operate under extreme time pressure. Every interface decision was optimized for speed and clarity — minimal clicks, maximum context, and instant feedback.`,
     quote: "In hospitals, every minute saved in discharge coordination is a minute gained for patient care. We built systems that let clinicians focus on healing.",
     highlights: [
       "Deployed across 80+ hospitals for patient discharge coordination",
@@ -145,17 +144,15 @@ Working in healthcare technology required exceptional attention to reliability, 
     category: "B2B/B2C Marketplace",
     year: "2023",
     image: imgDirection7,
+    placeholderIcon: Globe,
+    neonColor: "text-cyan-400 border-cyan-500/30 shadow-cyan-500/20 bg-cyan-950/20",
     tech: ["MERN", "Firebase", "Cloudflare S3", "DigitalOcean", "PM2", "Nginx"],
     description: "Built a B2B/B2C platform connecting businesses, transport, products, and services through one intelligent digital ecosystem.",
     longDescription: `Direction7 is my flagship founder project — a full-stack B2B/B2C marketplace platform designed to connect businesses, transport providers, products, and services through a single intelligent digital ecosystem. The vision was to create a unified directory and transaction platform where any business, regardless of size, could establish a digital presence, list services, and connect with customers and partners.
-
-The platform was architected using the MERN stack (MongoDB, Express.js, React, Node.js) with Firebase for authentication and real-time features, Cloudflare S3 for edge-optimized asset storage and CDN delivery, and production deployment on DigitalOcean with PM2 process management and Nginx reverse proxy configuration.
-
-I designed the entire system architecture from database schema design through API layer development to frontend implementation. The platform features user and business registration flows, service listing and search with category filtering, real-time messaging between buyers and sellers, review and rating systems, and an admin dashboard for platform management.
-
-The cloud infrastructure was engineered for production reliability — PM2 ensures zero-downtime restarts and automatic crash recovery, Nginx handles SSL termination and load distribution, and Cloudflare S3 provides global edge caching for static assets. This infrastructure setup supports horizontal scaling as the platform grows.
-
-Building Direction7 taught me the full lifecycle of product development — from market research and UI/UX design through backend architecture, database optimization, cloud deployment, and production monitoring. It's the project that transformed me from a frontend developer into a full-stack product engineer.`,
+\nThe platform was architected using the MERN stack (MongoDB, Express.js, React, Node.js) with Firebase for authentication and real-time features, Cloudflare S3 for edge-optimized asset storage and CDN delivery, and production deployment on DigitalOcean with PM2 process management and Nginx reverse proxy configuration.
+\nI designed the entire system architecture from database schema design through API layer development to frontend implementation. The platform features user and business registration flows, service listing and search with category filtering, real-time messaging between buyers and sellers, review and rating systems, and an admin dashboard for platform management.
+\nThe cloud infrastructure was engineered for production reliability — PM2 ensures zero-downtime restarts and automatic crash recovery, Nginx handles SSL termination and load distribution, and Cloudflare S3 provides global edge caching for static assets. This infrastructure setup supports horizontal scaling as the platform grows.
+\nBuilding Direction7 taught me the full lifecycle of product development — from market research and UI/UX design through backend architecture, database optimization, cloud deployment, and production monitoring. It's the project that transformed me from a frontend developer into a full-stack product engineer.`,
     quote: "Direction7 was born from a simple idea: every business deserves a digital direction. Building it taught me that the best products solve real problems with elegant engineering.",
     highlights: [
       "Full-stack MERN architecture with Firebase authentication",
@@ -174,17 +171,14 @@ Building Direction7 taught me the full lifecycle of product development — from
     category: "Automotive E-Commerce",
     year: "2024",
     image: imgCarzmoto,
+    logo: logoCarzmoto,
     tech: ["Next.js", "MERN Stack", "Responsive Design"],
     description: "Complete digital presence and billing system for a premium car accessories provider in Chennai.",
     longDescription: `CarzMoto is a comprehensive digital solution built for my friend Abdul Jaffar's premium car accessories business located at Kithabath Khan Street, Triplicane, Chennai. The business provides A-to-Z car accessories and modification services — from LED lights, seat covers, and repainting to stickering, add-ons, wheel upgrades, and complete interior/exterior customization for all car brands.
-
-The project involved building both a professional website and a full billing management system. The website was developed using Next.js for server-side rendering and SEO optimization, ensuring the business ranks well in local Chennai search results. The design showcases the premium quality of CarzMoto's work with high-impact imagery, service catalogs, customer testimonials, and contact information including their operating hours (Monday–Sunday, 10:00 AM – 12:00 PM) and phone number (+91 80725 74682).
-
-The billing system was built on the MERN stack, providing Abdul Jaffar and his team with a streamlined workflow for creating invoices, tracking orders, managing inventory, and maintaining customer records. The system generates professional invoices with itemized service details, tax calculations, and payment tracking — replacing the manual paper-based billing that the shop previously relied on.
-
-The responsive design ensures the billing interface works seamlessly on tablets, allowing staff to create invoices on the shop floor while working on vehicles. This eliminated the need to walk back to a desktop computer for each transaction, significantly improving operational efficiency.
-
-Building CarzMoto reinforced my belief that technology should serve real-world businesses. Seeing Abdul Jaffar's team transition from handwritten receipts to a professional digital billing system was one of the most rewarding experiences in my development career.`,
+\nThe project involved building both a professional website and a full billing management system. The website was developed using Next.js for server-side rendering and SEO optimization, ensuring the business ranks well in local Chennai search results. The design showcases the premium quality of CarzMoto's work with high-impact imagery, service catalogs, customer testimonials, and contact information including their operating hours (Monday–Sunday, 10:00 AM – 12:00 PM) and phone number (+91 80725 74682).
+\nThe billing system was built on the MERN stack, providing Abdul Jaffar and his team with a streamlined workflow for creating invoices, tracking orders, managing inventory, and maintaining customer records. The system generates professional invoices with itemized service details, tax calculations, and payment tracking — replacing the manual paper-based billing that the shop previously relied on.
+\nThe responsive design ensures the billing interface works seamlessly on tablets, allowing staff to create invoices on the shop floor while working on vehicles. This eliminated the need to walk back to a desktop computer for each transaction, significantly improving operational efficiency.
+\nBuilding CarzMoto reinforced my belief that technology should serve real-world businesses. Seeing Abdul Jaffar's team transition from handwritten receipts to a professional digital billing system was one of the most rewarding experiences in my development career.`,
     quote: "The best technology is the kind that makes a friend's business run smoother. CarzMoto proved that even a local shop deserves world-class digital tools.",
     highlights: [
       "Next.js website with SSR for local SEO optimization",
@@ -202,17 +196,15 @@ Building CarzMoto reinforced my belief that technology should serve real-world b
     category: "Artificial Intelligence",
     year: "2024",
     image: imgAiJob,
+    placeholderIcon: Brain,
+    neonColor: "text-fuchsia-400 border-fuchsia-500/30 shadow-fuchsia-500/20 bg-fuchsia-950/20",
     tech: ["React", "TypeScript", "FastAPI", "PostgreSQL", "Gemini / OpenAI"],
     description: "AI-powered platform that analyzes resumes and recommends suitable career opportunities with explainable matching.",
     longDescription: `The AI Job Recommendation System is a full-stack AI-powered platform that transforms how job seekers discover career opportunities. The system accepts resume uploads in PDF, DOCX, or TXT formats, uses AI to extract skills, experience levels, education background, and role keywords, then generates personalized job recommendations with detailed explanations for why each role matches the candidate's profile.
-
-The architecture follows a clean separation of concerns: a React + TypeScript frontend provides the user interface with glassmorphism design, smooth animations, and responsive layouts. The FastAPI + Python backend handles resume parsing, AI integration, and recommendation logic. PostgreSQL stores user profiles, parsed resume data, and recommendation history for persistent access.
-
-The AI integration supports both Google Gemini and OpenAI as interchangeable providers. Carefully crafted prompts handle three distinct analysis phases: Resume Analysis extracts structured data from unstructured resume text, Job Matching generates relevant role recommendations ranked by compatibility, and Skill Gap Analysis identifies matching strengths and areas for professional development.
-
-The matching algorithm goes beyond simple keyword overlap. It considers semantic similarity between skills and job requirements, experience level appropriateness, industry relevance, and career trajectory alignment. Each recommendation includes a compatibility percentage score and a human-readable explanation that helps candidates understand exactly why a role was suggested.
-
-The frontend features a premium dark theme with glassmorphism effects, purple and cyan gradient accents, and smooth component transitions. The upload flow provides real-time feedback through an animated analysis loader, and results are presented in a dashboard layout with filterable recommendation cards.`,
+\nThe architecture follows a clean separation of concerns: a React + TypeScript frontend provides the user interface with glassmorphism design, smooth animations, and responsive layouts. The FastAPI + Python backend handles resume parsing, AI integration, and recommendation logic. PostgreSQL stores user profiles, parsed resume data, and recommendation history for persistent access.
+\nThe AI integration supports both Google Gemini and OpenAI as interchangeable providers. Carefully crafted prompts handle three distinct analysis phases: Resume Analysis extracts structured data from unstructured resume text, Job Matching generates relevant role recommendations ranked by compatibility, and Skill Gap Analysis identifies matching strengths and areas for professional development.
+\nThe matching algorithm goes beyond simple keyword overlap. It considers semantic similarity between skills and job requirements, experience level appropriateness, industry relevance, and career trajectory alignment. Each recommendation includes a compatibility percentage score and a human-readable explanation that helps candidates understand exactly why a role was suggested.
+\nThe frontend features a premium dark theme with glassmorphism effects, purple and cyan gradient accents, and smooth component transitions. The upload flow provides real-time feedback through an animated analysis loader, and results are presented in a dashboard layout with filterable recommendation cards.`,
     quote: "The gap between talent and opportunity isn't skills — it's visibility. AI can bridge that gap by seeing patterns that humans miss in a stack of resumes.",
     highlights: [
       "Resume parsing supporting PDF, DOCX, and TXT formats",
@@ -231,17 +223,15 @@ The frontend features a premium dark theme with glassmorphism effects, purple an
     category: "AI & DevOps",
     year: "2024",
     image: imgChatbot,
+    placeholderIcon: Bot,
+    neonColor: "text-green-400 border-green-500/30 shadow-green-500/20 bg-green-950/20",
     tech: ["Next.js", "Express.js", "Gemini AI", "PostgreSQL", "Docker", "Nginx"],
     description: "Production-ready AI chatbot with conversation history, notes system, and full cloud deployment infrastructure.",
     longDescription: `The Smart Assistant Chatbot is a production-ready AI conversation platform built with a modern full-stack architecture. Unlike simple chat wrappers, this project was designed as a complete production system — featuring persistent conversation history, a notes system for saving important information, PWA support for mobile installation, and comprehensive DevOps infrastructure including Docker containerization, CI/CD pipelines, and multiple cloud deployment configurations.
-
-The frontend is built with Next.js 16 using the App Router for server-side rendering and optimized page loading. The UI is designed with Ant Design components and features a conversation sidebar for managing multiple chat threads, a rich message display with code syntax highlighting, and a notes panel for organizing extracted insights.
-
-The Express.js backend provides a robust API layer with comprehensive security features: rate limiting to prevent abuse, CORS protection for cross-origin safety, Helmet security headers, input validation, SQL injection protection, and XSS prevention. PostgreSQL stores conversation history, user preferences, and saved notes with full CRUD operations.
-
-The AI integration uses Google Gemini for natural language understanding and response generation. The system maintains conversation context across messages, enabling coherent multi-turn dialogues that reference previous interactions.
-
-What makes this project stand out is the production infrastructure. The Docker Compose configuration orchestrates the full stack — frontend, backend, database, and Nginx reverse proxy — in a single deployment command. CI/CD pipelines automate testing and deployment, while configuration files for Railway, Render, and Vercel enable one-click cloud deployment across multiple platforms. The project includes detailed deployment documentation covering VPS setup on DigitalOcean and AWS.`,
+\nThe frontend is built with Next.js 16 using the App Router for server-side rendering and optimized page loading. The UI is designed with Ant Design components and features a conversation sidebar for managing multiple chat threads, a rich message display with code syntax highlighting, and a notes panel for organizing extracted insights.
+\nThe Express.js backend provides a robust API layer with comprehensive security features: rate limiting to prevent abuse, CORS protection for cross-origin safety, Helmet security headers, input validation, SQL injection protection, and XSS prevention. PostgreSQL stores conversation history, user preferences, and saved notes with full CRUD operations.
+\nThe AI integration uses Google Gemini for natural language understanding and response generation. The system maintains conversation context across messages, enabling coherent multi-turn dialogues that reference previous interactions.
+\nWhat makes this project stand out is the production infrastructure. The Docker Compose configuration orchestrates the full stack — frontend, backend, database, and Nginx reverse proxy — in a single deployment command. CI/CD pipelines automate testing and deployment, while configuration files for Railway, Render, and Vercel enable one-click cloud deployment across multiple platforms. The project includes detailed deployment documentation covering VPS setup on DigitalOcean and AWS.`,
     quote: "Building an AI chatbot is easy. Building one that's production-ready — with security, persistence, and zero-downtime deployments — is where real engineering begins.",
     highlights: [
       "Next.js 16 frontend with App Router and server-side rendering",
@@ -259,19 +249,16 @@ What makes this project stand out is the production infrastructure. The Docker C
     category: "B2B Logistics",
     year: "2023",
     image: imgWatermap,
+    placeholderIcon: Droplet,
+    neonColor: "text-blue-400 border-blue-500/30 shadow-blue-500/20 bg-blue-950/20",
     tech: ["MERN Stack", "Google Maps API", "Real-time Tracking"],
     description: "B2B water supply logistics platform connecting water industries with wholesalers and retailers across Chennai.",
     longDescription: `WaterMap was a founder-led B2B logistics platform designed to digitize the water supply chain in Chennai, India. Co-founded with a friend, the platform aimed to connect pure water industries (suppliers) with wholesalers and retailers through an intelligent routing and order management system.
-
-The business model was straightforward but ambitious: source pure drinking water from certified water treatment plants, then distribute it through a network of wholesalers and retailers across Chennai's neighborhoods. At its peak, the operation reached 10 wholesalers and 5 retailers, operating for 5 months before market conditions led to its closure.
-
-The platform was built on the MERN stack with Google Maps API integration for delivery route optimization and real-time order tracking. The system featured separate dashboards for suppliers, wholesalers, and retailers — each with role-specific views showing inventory levels, pending orders, delivery schedules, and payment tracking.
-
-The supplier dashboard managed production batch tracking, quality certification uploads, and distribution scheduling. Wholesaler interfaces handled bulk order placement, inventory management, and downstream retailer fulfillment. Retailer views showed simplified ordering, delivery tracking, and customer complaint management.
-
-Though the business ultimately didn't sustain, WaterMap was an invaluable learning experience in full-stack product development, logistics system design, and the harsh realities of startup economics. The technical architecture — handling real-time inventory synchronization across multiple supply chain nodes — pushed my understanding of distributed data consistency and eventually informed my approach to building real-time systems at BizMagnets.
-
-The project taught me that great engineering alone doesn't guarantee business success, but the technical skills and entrepreneurial mindset it built have shaped every product decision I've made since.`,
+\nThe business model was simple: source pure drinking water from certified water treatment plants, then distribute it through a network of wholesalers and retailers across Chennai's neighborhoods. At its peak, the operation reached 10 wholesalers and 5 retailers, operating for 5 months before market conditions led to its closure.
+\nThe platform was built on the MERN stack with Google Maps API integration for delivery route optimization and real-time order tracking. The system featured separate dashboards for suppliers, wholesalers, and retailers — each with role-specific views showing inventory levels, pending orders, delivery schedules, and payment tracking.
+\nThe supplier dashboard managed production batch tracking, quality certification uploads, and distribution scheduling. Wholesaler interfaces handled bulk order placement, inventory management, and downstream retailer fulfillment. Retailer views showed simplified ordering, delivery tracking, and customer complaint management.
+\nThough the business ultimately didn't sustain, WaterMap was an invaluable learning experience in full-stack product development, logistics system design, and the harsh realities of startup economics. The technical architecture — handling real-time inventory synchronization across multiple supply chain nodes — pushed my understanding of distributed data consistency and eventually informed my approach to building real-time systems at BizMagnets.
+\nThe project taught me that great engineering alone doesn't guarantee business success, but the technical skills and entrepreneurial mindset it built have shaped every product decision I've made since.`,
     quote: "WaterMap didn't survive the market, but the engineering and entrepreneurial lessons it taught me flow through every product I build today.",
     highlights: [
       "B2B logistics connecting water industries with wholesalers and retailers",
@@ -289,19 +276,16 @@ The project taught me that great engineering alone doesn't guarantee business su
     category: "Small Business Tool",
     year: "2023",
     image: imgHissab,
+    placeholderIcon: Calculator,
+    neonColor: "text-orange-400 border-orange-500/30 shadow-orange-500/20 bg-orange-950/20",
     tech: ["MERN Stack", "Firebase", "PDFKit", "WhatsApp API"],
     description: "Complete billing platform with invoice generation, WhatsApp sharing, cloud storage, and multi-currency support.",
     longDescription: `Hissab (meaning "account" in Urdu/Hindi) is a billing and invoice management application designed specifically for small businesses and individual entrepreneurs who need a simple, powerful way to create professional invoices and share them instantly with customers via WhatsApp.
-
-The platform was born from observing how small shopkeepers and service providers in Chennai struggle with billing — most rely on handwritten receipts or basic spreadsheets that lack professional formatting, tax calculations, and digital sharing capabilities. Hissab solves this by providing a clean, intuitive interface where users can create itemized invoices, apply tax rates, track payment status, and generate PDF bills with a single click.
-
-Built on the MERN stack with Firebase for authentication and cloud storage, the application features a comprehensive billing workflow: create customer profiles, add line items with descriptions and quantities, apply GST and other tax calculations, generate formatted PDF invoices using PDFKit, and share the completed bill directly to the customer's WhatsApp number with a pre-formatted message.
-
-The WhatsApp integration is particularly valuable for the target market. Small business owners in India communicate primarily through WhatsApp, so the ability to generate a professional PDF invoice and send it directly to a customer's chat — without requiring email addresses or printing — dramatically simplifies the billing process.
-
-The dashboard provides business analytics including monthly revenue trends, outstanding payment tracking, customer purchase history, and tax summary reports. Firebase cloud storage ensures all invoices are safely backed up and accessible from any device.
-
-Hissab represents my philosophy of building technology that empowers underserved markets. The most impactful software isn't always the most complex — sometimes it's a simple tool that replaces a stack of paper receipts with a professional digital workflow.`,
+\nThe platform was born from observing how small shopkeepers and service providers in Chennai struggle with billing — most rely on handwritten receipts or basic spreadsheets that lack professional formatting, tax calculations, and digital sharing capabilities. Hissab solves this by providing a clean, intuitive interface where users can create itemized invoices, apply tax rates, track payment status, and generate PDF bills with a single click.
+\nBuilt on the MERN stack with Firebase for authentication and cloud storage, the application features a comprehensive billing workflow: create customer profiles, add line items with descriptions and quantities, apply GST and other tax calculations, generate formatted PDF invoices using PDFKit, and share the completed bill directly to the customer's WhatsApp number with a pre-formatted message.
+\nThe WhatsApp integration is particularly valuable for the target market. Small business owners in India communicate primarily through WhatsApp, so the ability to generate a professional PDF invoice and send it directly to a customer's chat — without requiring email addresses or printing — dramatically simplifies the billing process.
+\nThe dashboard provides business analytics including monthly revenue trends, outstanding payment tracking, customer purchase history, and tax summary reports. Firebase cloud storage ensures all invoices are safely backed up and accessible from any device.
+\nHissab represents my philosophy of building technology that empowers underserved markets. The most impactful software isn't always the most complex — sometimes it's a simple tool that replaces a stack of paper receipts with a professional digital workflow.`,
     quote: "Hissab proved that the most impactful software isn't the most complex — it's the simple tool that replaces a stack of paper receipts with a professional digital workflow.",
     highlights: [
       "PDF invoice generation with PDFKit and professional formatting",
@@ -311,7 +295,6 @@ Hissab represents my philosophy of building technology that empowers underserved
       "Business analytics: revenue trends, payment tracking, tax summaries",
       "Designed for small businesses and individual entrepreneurs"
     ],
-    githubLink: "https://github.com/hafiz475/hissab",
   },
 ];
 
@@ -435,10 +418,24 @@ export const SelectedWorks: React.FC = () => {
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
                     draggable={false}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                    <h3 className="text-sm md:text-base font-semibold text-white leading-tight">{project.title}</h3>
-                    <p className="text-[10px] md:text-xs text-white/60 italic mt-0.5">{project.subtitle}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 flex items-center gap-3">
+                    {/* Logo/Icon Container */}
+                    {project.logo ? (
+                      <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-white/20 bg-white shadow-md p-1">
+                        <img src={project.logo} alt="" className="w-full h-full object-contain" />
+                      </div>
+                    ) : (
+                      project.placeholderIcon && (
+                        <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center border backdrop-blur-sm shadow-md shadow-black/40 ${project.neonColor}`}>
+                          <project.placeholderIcon className="w-4 h-4" />
+                        </div>
+                      )
+                    )}
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-xs md:text-sm font-semibold text-white leading-snug">{project.title}</h3>
+                      <p className="text-[10px] md:text-xs text-white/60 italic mt-0.5">{project.subtitle}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -503,9 +500,22 @@ export const SelectedWorks: React.FC = () => {
               <div className="p-6 md:p-10 flex flex-col gap-6 text-left">
 
                 {/* Title Block */}
-                <div>
-                  <span className="text-[10px] uppercase tracking-widest text-muted block font-mono">{selectedProject.subtitle}</span>
-                  <h3 className="text-2xl sm:text-3xl font-display font-medium text-text-primary mt-1">{selectedProject.title}</h3>
+                <div className="flex items-center gap-4">
+                  {selectedProject.logo ? (
+                    <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 flex items-center justify-center border border-white/20 bg-white shadow-md p-1.5">
+                      <img src={selectedProject.logo} alt="" className="w-full h-full object-contain" />
+                    </div>
+                  ) : (
+                    selectedProject.placeholderIcon && (
+                      <div className={`w-12 h-12 rounded-xl shrink-0 flex items-center justify-center border backdrop-blur-sm shadow-md shadow-black/40 p-2.5 ${selectedProject.neonColor}`}>
+                        <selectedProject.placeholderIcon className="w-6 h-6" />
+                      </div>
+                    )
+                  )}
+                  <div>
+                    <span className="text-[10px] uppercase tracking-widest text-muted block font-mono">{selectedProject.subtitle}</span>
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-text-primary mt-0.5 leading-tight">{selectedProject.title}</h3>
+                  </div>
                 </div>
 
                 {/* Tech Stack Chips */}
