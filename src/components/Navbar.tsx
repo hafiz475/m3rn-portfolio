@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, MessageSquare } from 'lucide-react';
+import { ArrowUpRight, Compass } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
@@ -176,13 +176,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, onCom
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.3, delay: navLinks.length * 0.06 }}
               onClick={() => handleMobileNav('contact')}
-              className="mt-4 relative rounded-full text-sm font-semibold p-[1.5px] focus:outline-none w-[60%] group"
+              // A real 2px gradient border stays even on every screen density, unlike a padded gradient underlay
+              className="mt-6 flex w-[70%] items-center justify-center gap-2 rounded-full border-2 border-transparent py-3.5 text-base font-semibold text-text-primary focus:outline-none [background:linear-gradient(hsl(var(--surface)),hsl(var(--surface)))_padding-box,linear-gradient(90deg,#89AACC,#4E85BF)_border-box]"
             >
-              <span className="absolute inset-0 rounded-full accent-gradient" />
-              <span className="relative flex items-center justify-center gap-2 bg-surface text-text-primary rounded-full py-3.5 text-base">
-                Say hi 
-                <MessageSquare className="w-4 h-4" />
-              </span>
+              Say hi
+              <ArrowUpRight className="h-4 w-4" />
             </motion.button>
           </motion.div>
         )}
