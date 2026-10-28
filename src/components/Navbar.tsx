@@ -30,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick }) => 
   const navLinks = [
     { label: 'Home', id: 'home' },
     { label: 'Work', id: 'work' },
+    { label: 'Case Studies', id: 'case-studies' },
     { label: 'Journal', id: 'journal' },
     { label: 'Playground', id: 'playground' },
   ];
@@ -107,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick }) => 
             className="hidden md:inline-flex relative text-sm rounded-full py-2 group items-center justify-center focus:outline-none overflow-visible"
           >
             <span className="absolute inset-[-2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-            <span className="flex items-center gap-1 bg-surface group-hover:bg-bg/95 rounded-full px-4.5 py-2 text-text-primary border border-white/5 transition-colors duration-300">
+            <span className="flex items-center gap-1 bg-surface group-hover:bg-bg/95 rounded-full px-5 py-2 text-text-primary border border-white/5 transition-colors duration-300">
               Say hi <span className="inline-block transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
             </span>
           </a>

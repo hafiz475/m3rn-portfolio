@@ -164,3 +164,56 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted));
 }
+
+/* Illustration motion (SVG art in src/components/illustrations) */
+@keyframes ill-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes ill-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes ill-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes ill-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ill-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ill-pulse 2.4s ease-out infinite;
+  }
+
+  .ill-flow {
+    animation: ill-flow 1.2s linear infinite;
+  }
+
+  .ill-float {
+    animation: ill-float 6s ease-in-out infinite;
+  }
+
+  .ill-spin {
+    animation: ill-spin 14s linear infinite;
+  }
+}

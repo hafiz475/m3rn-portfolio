@@ -154,7 +154,7 @@ export const Contact: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://www.linkedin.com/in/hafiz-webdeveloper/"
+                href="https://www.linkedin.com/in/jmdhafizurrahman"
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded-full bg-surface/50 border border-stroke hover:border-[#0077b5]/20 flex items-center justify-center transition-all"
