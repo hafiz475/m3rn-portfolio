@@ -12,6 +12,7 @@ import { TechStack } from './components/TechStack';
 import { Stats } from './components/Stats';
 import { Contact } from './components/Contact';
 import { GlobalVideoBackground } from './components/GlobalVideoBackground';
+import { CompassModal } from './components/CompassModal';
 import { CaseStudies } from './components/CaseStudies';
 import { CaseStudiesSection } from './components/CaseStudiesSection';
 import { CaseStudyDetail } from './components/CaseStudyDetail';
@@ -35,6 +36,7 @@ function App() {
   const [route, setRoute] = useState<Route>(routeFromHash);
   const [activeSection, setActiveSection] = useState('home');
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [isCompassOpen, setIsCompassOpen] = useState(false);
   // Section to scroll to once the home view has mounted again
   const pendingSection = useRef<string | null>(null);
   // Whether the open case study was reached by a click here, so Back can return to it
@@ -188,6 +190,7 @@ function App() {
               <Navbar
                 activeSection={view === 'case-studies' ? 'case-studies' : activeSection}
                 onNavClick={handleNavClick}
+                onCompassClick={() => setIsCompassOpen(true)}
               />
 
               {view === 'case-studies' ? (
@@ -231,6 +234,11 @@ function App() {
           )}
         </div>
       )}
+      <AnimatePresence>
+        {isCompassOpen && (
+          <CompassModal onClose={() => setIsCompassOpen(false)} />
+        )}
+      </AnimatePresence>
     </>
   );
 }

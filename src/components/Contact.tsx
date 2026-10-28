@@ -19,6 +19,20 @@ export const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formState.name && formState.email && formState.message) {
+      const recipient = "mohammed.hafiz.4755@gmail.com";
+      const subject = encodeURIComponent(`Portfolio Message from ${formState.name}`);
+      const body = encodeURIComponent(
+        `Hello Hafiz,\n\n` +
+        `You have received a new message from your portfolio website:\n\n` +
+        `Sender Name: ${formState.name}\n` +
+        `Sender Email: ${formState.email}\n\n` +
+        `Message:\n${formState.message}\n\n` +
+        `Best regards,\n` +
+        `${formState.name}`
+      );
+      
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
@@ -193,7 +207,7 @@ export const Contact: React.FC = () => {
             variants={fadeUpVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="lg:col-span-7 bg-surface border border-stroke rounded-2xl p-6 sm:p-8 w-full shadow-2xl relative"
+            className="lg:col-span-7 bg-surface/30 hover:bg-surface border border-stroke rounded-2xl p-6 sm:p-8 w-full shadow-2xl relative transition-colors duration-300"
           >
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">

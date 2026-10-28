@@ -80,6 +80,15 @@ body {
   }
 }
 
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* Custom CSS Utilities */
 .accent-gradient {
   background: linear-gradient(90deg, #89AACC 0%, #4E85BF 100%);
@@ -104,6 +113,10 @@ body {
 
 .animate-marquee-right {
   animation: marquee-right linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 15s linear infinite;
 }
 
 /* Halftone Pattern Overlay */
