@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUpRight, Mail } from 'lucide-react';
 import type { CaseBlock, CaseLink } from '../data/caseStudies';
 import { Illustration } from './illustrations/Illustration';
+import { TechIcon } from './TechIcon';
 
 export const LinkPill: React.FC<{ link: CaseLink }> = ({ link }) => {
   const isMail = link.href.startsWith('mailto:');
@@ -30,7 +31,11 @@ export const Eyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) =
 export const StackChips: React.FC<{ stack: string[] }> = ({ stack }) => (
   <ul aria-label="Tech stack" className="flex flex-wrap gap-1.5">
     {stack.map((tech) => (
-      <li key={tech} className="rounded-full border border-white/5 bg-surface/60 px-2.5 py-1 font-mono text-[10px] text-text-primary/80">
+      <li
+        key={tech}
+        className="inline-flex items-center gap-1.5 rounded-full border border-white/5 bg-surface/60 py-1 pl-2 pr-2.5 text-[11px] font-medium text-text-primary/85"
+      >
+        <TechIcon name={tech} />
         {tech}
       </li>
     ))}

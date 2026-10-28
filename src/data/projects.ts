@@ -16,12 +16,21 @@ import odysseyPhone from '../assets/projects/hafiz-odyssey-phone.webp';
 import mark47Desktop from '../assets/projects/mark47-desktop.webp';
 import mljDesktop from '../assets/projects/my-life-journey-desktop.webp';
 import seaviewDesktop from '../assets/projects/parallax-seaview-desktop.webp';
+import watermapImage from '../assets/projects/watermap.webp';
+import hissabImage from '../assets/projects/hissab.webp';
+import logoBizmagnets from '../assets/logos/bizmagnets.webp';
+import logoChatops from '../assets/logos/chatops.webp';
+import logoCarzmoto from '../assets/logos/carzmoto.webp';
+import logoNippon from '../assets/logos/nippon.webp';
+import logoBuckman from '../assets/logos/buckman.webp';
 
 export interface ProjectVisual {
   /** Desktop screenshot (16:10) shown in the detail view */
   desktop: string;
   /** Phone screenshot used on the portrait card; falls back to the desktop shot */
   phone?: string;
+  /** Concept images are mockups, not screenshots of a live site */
+  kind?: 'screenshot' | 'concept';
 }
 
 export interface Project {
@@ -42,6 +51,16 @@ export interface Project {
   caseStudyId?: string;
   screenshot?: ProjectVisual;
   art?: ArtId;
+  /** Client or company logo shown beside the title */
+  logo?: string;
+}
+
+/** Smaller public repos: experiments and early learning projects. */
+export interface ArchiveRepo {
+  name: string;
+  year: string;
+  description: string;
+  href: string;
 }
 
 export const PROJECTS: Project[] = [
@@ -60,6 +79,7 @@ export const PROJECTS: Project[] = [
       'An agent inbox that renders rich WhatsApp messages (quick replies, list pickers, media, Flow responses), tuned with memoisation, virtualisation and code splitting.',
       'Reports over 10M+ rows moved to background server jobs, so the browser never loads them.',
       'Backend: webhook ingestion with per-contact ordering, BullMQ scheduling and rate limits, one adapter layer over three WhatsApp providers, and keyset pagination for 100,000-contact broadcasts.',
+      'With the team: a WhatsApp ordering connector for stores on Tally ERP. Customers order from a WhatsApp link, get a confirmation and a payment link, and the order reaches Tally through a webhook.',
       'Team practice: daily stand-ups, weekly code reviews, WCAG 2.1 AA review checks, and Conventional Commits adoption from 0% to 93%+ across about 12 developers.',
     ],
     highlights: [
@@ -87,9 +107,10 @@ export const PROJECTS: Project[] = [
       'MySQL',
       'Jenkins',
     ],
-    links: [],
+    links: [{ label: 'Company site', href: 'https://bizmagnets.ai/' }],
     caseStudyId: 'bizmagnets-bot-builder',
     art: 'bizmagnets-bot-builder',
+    logo: logoBizmagnets,
   },
   {
     id: 'sirat',
@@ -120,23 +141,34 @@ export const PROJECTS: Project[] = [
     id: 'direction7',
     title: 'Direction7',
     subtitle: 'Local-commerce platform · my product',
-    period: '2026',
-    role: 'Product owner and engineer, working with AI coding agents.',
-    summary: 'Inventory, billing, suppliers, delivery and business messaging for local stores.',
+    period: 'Apr 2025 – Oct 2026',
+    role: 'Founder, product owner and engineer. I designed and built it end to end, working with AI coding agents.',
+    summary: 'Inventory, billing, suppliers, delivery and business messaging for local stores, on web and mobile.',
     overview:
-      'Direction7 connects local businesses with their suppliers, delivery partners and customers. It covers inventory, billing, tax, logistics and driver workflows, chat, business networking and a storefront, and is moving from a MERN monolith to Express services behind an API gateway.',
+      'Direction7 connected local businesses with their buyers, suppliers and delivery partners: inventory, billing and taxes, purchasing, logistics, appointments, a business network, messaging and a public storefront search. It ran at direction7.in as a React web app and a Next.js public site, with an early Expo mobile app, all talking to ten Node.js services through one API gateway.',
     built: [
-      'TypeScript and Node.js services behind an API gateway, with 180+ REST endpoints.',
-      'Redis and BullMQ for caching, delayed jobs and background work, Kafka for events, and Socket.IO for realtime notifications.',
-      'A Messages work queue with Pending, Responded and Sent tabs and request flows for connections, suppliers, fulfilment, delivery and partners.',
-      "Header badges counted on the server with the inbox's own query, so the numbers always match the list.",
-      'Fixes pinned by tests: cart and stock rules, Back navigation, one name per feature, and chats that open with the newest 50 messages.',
+      'Ten TypeScript and Node.js services (auth, inventory, logistics, connections, chat-ops, discovery, category assets, common and a background worker) behind one API gateway. Every web, mobile and Socket.IO client talks only to the gateway.',
+      'A React business app with buyer and seller workspaces: dashboard, inventory, create, send and update bills, bill history, taxes, purchasing, research analytics, appointments, people, notifications, cart and messages.',
+      'A Next.js public storefront and search with D3 and MapLibre maps, and an Expo / React Native mobile app.',
+      'Bill PDFs: cached, pre-sized icons cut a warm render from about 11 s to 4 s, the longest event-loop stall from 2 s to 0.13 s, and the file from 619 KB to 70 KB. Rendering then moved to a BullMQ worker.',
+      'Production images compiled ahead of time: the gateway image went from 515 MB to 368 MB, memory from 107 MB to 58 MB, and time to healthy from 29 s to 11 s.',
+      "Reads that loaded a seller's whole catalogue just to count or sum it now stream only the fields they need: 2.9 MB down to 116 KB for 500 items, with byte-identical answers.",
+      'Observability with OpenTelemetry, Prometheus, Grafana, Loki and Tempo, and GitHub Actions for CI and security checks.',
     ],
-    note: 'In active development; some services and workers are not production-complete yet.',
+    highlights: [
+      { value: '1,757', label: 'commits, Apr 2025 – Oct 2026' },
+      { value: '10', label: 'services behind one gateway' },
+      { value: '5,314', label: 'web-client tests in 479 suites' },
+      { value: '619 → 70 KB', label: 'bill PDF size' },
+    ],
+    note: 'direction7.in was taken offline in 2026 when the business did not work out, and the code is private. Every figure here comes from a measured commit.',
     stack: [
       'React',
-      'Next.js',
       'Redux Toolkit',
+      'Redux-Saga',
+      'React Router',
+      'Sass',
+      'Next.js',
       'TypeScript',
       'Node.js',
       'Express',
@@ -146,12 +178,25 @@ export const PROJECTS: Project[] = [
       'BullMQ',
       'Kafka',
       'Socket.IO',
+      'Firebase',
+      'D3',
+      'MapLibre GL',
+      'Leaflet',
+      'Three.js',
+      'Expo',
+      'React Native',
+      'PDFKit',
+      'Sharp',
+      'ExcelJS',
       'Cloudflare R2',
       'Docker',
       'Nginx',
+      'OpenTelemetry',
       'Prometheus',
       'Grafana',
-      'OpenTelemetry',
+      'Vitest',
+      'Jest',
+      'GitHub Actions',
     ],
     links: [],
     caseStudyId: 'direction7-messages',
@@ -165,15 +210,38 @@ export const PROJECTS: Project[] = [
     role: 'Frontend and full-stack developer at BizMagnets.',
     summary: 'SEO-first site for WhatsApp AI sales agents that sync orders to Tally.',
     overview:
-      "The public site for BizMagnets' AI sales agents, which present a catalogue, check stock and take orders on WhatsApp, then sync them to Tally. Built for search, fast pages and content the marketing team can update.",
+      "The public site for BizMagnets' AI sales agents, which present a catalogue, check stock and take orders on WhatsApp, then sync them to Tally. Every page is driven from Sanity: the marketing team edits content in a Studio inside the site, and pages refresh when they publish.",
     built: [
-      'Next.js App Router with React 19 and TypeScript; product, industry and solution pages built from reusable sections.',
+      'Next.js App Router with React 19 and TypeScript: home, solution, industry, customer-story, blog and resource pages assembled from reusable sections.',
+      'A Sanity v3 content model with 11 document types (site settings, home, solutions, industries, customer stories, blog posts, resources, pricing, FAQs, testimonials and client logos) and 9 section types that editors arrange themselves.',
+      'Sanity Studio embedded at /studio, draft preview, GROQ queries and Portable Text rendering.',
+      'On-demand revalidation from Sanity webhooks, so published edits go live without a redeploy.',
+      'Seed and migration scripts that moved the existing content into Sanity.',
       'A world map drawn with D3 (d3-geo) and TopoJSON.',
-      'Google Tag Manager and Meta Pixel with controlled script loading that does not break hydration.',
-      'GitLab CI/CD to Vercel with staging and production.',
+      'Google Tag Manager and Meta Pixel with controlled script loading that does not break hydration, and GitLab CI/CD to Vercel with staging and production.',
       'Trained a non-engineering go-to-market colleague in Git, npm and GitLab; they now open reviewed merge requests.',
     ],
-    stack: ['Next.js', 'React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'D3', 'TopoJSON', 'Lucide React', 'Google Tag Manager', 'Meta Pixel', 'GitLab CI/CD', 'Vercel'],
+    highlights: [
+      { value: '11', label: 'Sanity document types' },
+      { value: '9', label: 'page sections editors can arrange' },
+    ],
+    stack: [
+      'Next.js',
+      'React 19',
+      'TypeScript',
+      'Sanity',
+      'GROQ',
+      'Portable Text',
+      'Tailwind CSS',
+      'Framer Motion',
+      'D3',
+      'TopoJSON',
+      'Lucide React',
+      'Google Tag Manager',
+      'Meta Pixel',
+      'GitLab CI/CD',
+      'Vercel',
+    ],
     links: [
       { label: 'Live site', href: 'https://agents.bizmagnets.ai/' },
       { label: 'Code', href: 'https://github.com/hafiz475/bizmagnets-website' },
@@ -199,10 +267,11 @@ export const PROJECTS: Project[] = [
       { value: '8', label: 'departments on one board' },
       { value: '18% → 4%', label: 'SLA breach rate' },
     ],
-    note: 'Internal product, so no public link. The breach rate is team-reported.',
+    note: 'The product itself is private. The breach rate is team-reported.',
     stack: ['Socket.IO', 'NestJS', 'Redis', 'BullMQ', 'PostgreSQL', 'node-cron', 'AWS S3', 'WhatsApp Business API'],
-    links: [],
+    links: [{ label: 'Product site', href: 'https://chatops.health/' }],
     art: 'chatops-health',
+    logo: logoChatops,
   },
   {
     id: 'my-life-journey',
@@ -281,6 +350,7 @@ export const PROJECTS: Project[] = [
     ],
     caseStudyId: 'carz-moto',
     screenshot: { desktop: carzDesktop, phone: carzPhone },
+    logo: logoCarzmoto,
   },
   {
     id: 'ai-job',
@@ -367,11 +437,14 @@ export const PROJECTS: Project[] = [
     overview:
       'An Iron Man-inspired workshop rendered in the browser. Holographic panels walk through my life log, from football to mechanical engineering to software.',
     built: [
-      'Real-time rendering with Three.js and React Three Fiber, with layered models, lighting and materials.',
-      'Holographic life-log panels and an assembly-floor toggle.',
-      'Post-processing and Framer Motion transitions for a cinematic feel.',
+      'Real-time rendering with Three.js and React Three Fiber: a workshop with a robot arm, hologram table, arc reactor, hover bike, Tron car, time machine, sci-fi desk and terminal.',
+      'The hardest part was the models. I converted 14 downloaded assets to GLB, fixed their scale, materials and file paths, and wrapped each in its own React component so it could be placed, lit and animated.',
+      'An interactive robot arm with its own controller and sound effects, a sweeping HUD radar, and hologram and glow effects.',
+      'Holographic life-log panels with a typewriter reveal, and an assembly-floor toggle.',
+      'Post-processing and Framer Motion transitions for a cinematic feel, deployed to GitHub Pages.',
     ],
-    stack: ['React 19', 'Three.js', 'React Three Fiber', 'Drei', 'Postprocessing', 'Framer Motion', 'Sass', 'Vite'],
+    highlights: [{ value: '14', label: 'GLB models in one scene' }],
+    stack: ['React 19', 'Three.js', 'React Three Fiber', 'Drei', 'glTF / GLB', 'Postprocessing', 'Framer Motion', 'Sass', 'Vite', 'GitHub Pages'],
     links: [
       { label: 'Live', href: 'https://hafiz475.github.io/project_mark47/' },
       { label: 'Code', href: 'https://github.com/hafiz475/project_mark47' },
@@ -508,6 +581,7 @@ export const PROJECTS: Project[] = [
     stack: ['React', 'JavaScript', 'React Context', 'KendoReact', 'Material UI', 'SCSS', 'Razorpay', 'Firebase Cloud Messaging', 'Recharts', 'Figma'],
     links: [],
     art: 'neo-ninja',
+    logo: logoNippon,
   },
   {
     id: 'ackumen',
@@ -529,5 +603,79 @@ export const PROJECTS: Project[] = [
     stack: ['React', 'Redux-Saga', 'Socket.IO', 'KendoReact', 'Material UI', 'Bootstrap', 'SCSS', 'Recharts', 'Webpack'],
     links: [],
     art: 'ackumen',
+    logo: logoBuckman,
   },
+  {
+    id: 'watermap',
+    title: 'WaterMap',
+    subtitle: 'Water-supply logistics · co-founded',
+    period: '2023',
+    role: 'Co-founder and full-stack developer.',
+    summary: 'Connected water plants with wholesalers and retailers across Chennai.',
+    overview:
+      "A B2B platform for Chennai's drinking-water supply chain: certified plants supply wholesalers, who serve retailers. I co-founded it with a friend and built the product. The business ran for five months before we closed it.",
+    built: [
+      'Separate dashboards for suppliers, wholesalers and retailers, each showing their own orders, stock, deliveries and payments.',
+      'Google Maps for delivery routes and order tracking.',
+      'Stock kept in step across the chain as orders moved from plant to wholesaler to retailer.',
+    ],
+    highlights: [
+      { value: '10', label: 'wholesalers' },
+      { value: '5', label: 'retailers' },
+      { value: '5 months', label: 'in operation' },
+    ],
+    note: 'The business closed and the code is private. The image is a concept, not a screenshot.',
+    stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Google Maps'],
+    links: [],
+    screenshot: { desktop: watermapImage, kind: 'concept' },
+  },
+  {
+    id: 'hissab',
+    title: 'Hissab',
+    subtitle: 'Billing app for small businesses',
+    period: '2023',
+    role: 'Design and build, solo.',
+    summary: 'Professional invoices for small shops, sent straight to WhatsApp.',
+    overview:
+      '“Hissab” means “account”. Many small shopkeepers bill on paper or in spreadsheets. Hissab lets them create itemised invoices with tax, generate a PDF and send it to the customer on WhatsApp.',
+    built: [
+      'Customer profiles, line items, GST and other tax calculations, and payment status.',
+      'PDF invoices generated with PDFKit.',
+      'One-tap WhatsApp sharing with a pre-filled message, so customers need no email address.',
+      'Firebase sign-in and cloud storage, so invoices are backed up and available on any device.',
+      'A dashboard with monthly revenue, outstanding payments, customer history and tax summaries.',
+    ],
+    note: 'The code is not public. The image is a concept, not a screenshot.',
+    stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Firebase', 'PDFKit', 'WhatsApp'],
+    links: [],
+    screenshot: { desktop: hissabImage, kind: 'concept' },
+  },
+];
+
+const repo = (name: string) => `https://github.com/hafiz475/${name}`;
+
+export const ARCHIVE: ArchiveRepo[] = [
+  {
+    name: 'Arc of Dawn',
+    year: '2026',
+    description: 'A cinematic scroll story: a mossy bridge from dawn through a storm to moonlit night, drawn frame by frame with Canvas, GSAP and Framer Motion.',
+    href: repo('arc-of-dawn'),
+  },
+  { name: 'Cinematic Portfolio', year: '2026', description: 'An early Next.js version of this portfolio.', href: repo('cinematic_portfolie') },
+  { name: 'MERN 3D Portfolio', year: '2026', description: 'A 3D portfolio experiment in React, TypeScript and Vite.', href: repo('mern-3d-portfolio') },
+  { name: 'Journey 2.0', year: '2026', description: 'A Next.js experiment.', href: repo('journey_2.0') },
+  { name: 'Marketplace', year: '2026', description: 'A Next.js marketplace experiment.', href: repo('marketplace') },
+  { name: 'React Native app', year: '2026', description: 'A React Native and TypeScript app with its own backend folder.', href: repo('react_native') },
+  { name: 'Rahul', year: '2026', description: 'A React, TypeScript, Vite and Tailwind project.', href: repo('rahul') },
+  { name: '2.5D site', year: '2026', description: 'Experiments with 2.5D web layouts.', href: repo('2.5-d-site-learning') },
+  { name: '3D Resume', year: '2025', description: 'My first 3D resume, before My Life Journey.', href: repo('3D_Resume') },
+  { name: 'My 2D Resume', year: '2025', description: 'A plain, open resume.', href: repo('my_2d_resume') },
+  { name: 'Parallax Seasons', year: '2025', description: 'A companion to Parallax Seaview, in React and Vite.', href: repo('Parallax_Seasons') },
+  { name: 'Next.js + Tailwind', year: '2025', description: 'An early Next.js and Tailwind experiment.', href: repo('nextjs') },
+  { name: '3D Learning WebGL', year: '2023', description: 'Where my Three.js and WebGL learning started.', href: repo('3d_learning_webGl') },
+  { name: 'Crown Cloating', year: '2022', description: 'An early React project.', href: repo('crownCloating') },
+  { name: 'Grid CRUD', year: '2021', description: 'A React grid with create, edit and delete.', href: repo('Grid-CRUD') },
+  { name: 'Task 1', year: '2021', description: 'A React app reading from a JSON Server mock API.', href: repo('task1') },
+  { name: 'YuBlogs', year: '2021', description: 'An early React app.', href: repo('YuBlogs') },
+  { name: 'Project 4', year: '2021', description: 'An early learning project.', href: repo('project4') },
 ];

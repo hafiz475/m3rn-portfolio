@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { PROJECTS, type Project } from '../data/projects';
+import { ARCHIVE, PROJECTS, type Project } from '../data/projects';
 import { LinkPill, StackChips } from './CaseStudyParts';
 import { pad } from './caseStudyShared';
 import { Illustration } from './illustrations/Illustration';
+import { TechIcon } from './TechIcon';
 
 const TOTAL = PROJECTS.length;
 const ANGLE_STEP = (2 * Math.PI) / TOTAL;
@@ -17,14 +18,15 @@ const MAX_VISIBLE = 1.2;
 const ProjectVisual: React.FC<{ project: Project; variant: 'card' | 'wide'; className?: string }> = ({ project, variant, className = '' }) => {
   if (project.screenshot) {
     const usePhone = variant === 'card' && project.screenshot.phone;
+    const isConcept = project.screenshot.kind === 'concept';
     return (
       <img
         src={usePhone ? project.screenshot.phone : project.screenshot.desktop}
-        alt={`Screenshot of ${project.title}`}
+        alt={`${isConcept ? 'Concept image for' : 'Screenshot of'} ${project.title}`}
         loading="lazy"
         decoding="async"
         draggable={false}
-        className={`absolute inset-0 h-full w-full object-cover ${usePhone || variant === 'wide' ? 'object-top' : 'object-center'} ${className}`}
+        className={`absolute inset-0 h-full w-full object-cover ${!isConcept && (usePhone || variant === 'wide') ? 'object-top' : 'object-center'} ${className}`}
       />
     );
   }
@@ -77,7 +79,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, onOpenCas
           <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-stroke">
             <ProjectVisual project={project} variant="wide" />
             <span className="absolute bottom-3 left-3 rounded-full border border-white/10 bg-black/65 px-3 py-1 font-mono text-[10px] text-white/80 backdrop-blur-md">
-              {project.screenshot ? 'Screenshot of the live site' : 'Illustration'}
+              {!project.screenshot ? 'Illustration' : project.screenshot.kind === 'concept' ? 'Concept image' : 'Screenshot of the live site'}
             </span>
             <button
               ref={closeRef}
@@ -96,9 +98,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, onOpenCas
                 <span className="block font-mono text-[10px] uppercase tracking-widest text-muted">
                   {project.subtitle} · {project.period}
                 </span>
-                <h3 id="project-modal-title" className="mt-2 text-2xl font-medium text-text-primary sm:text-3xl">
-                  {project.title}
-                </h3>
+                <div className="mt-2 flex items-center gap-3">
+                  {project.logo && (
+                    <img src={project.logo} alt="" className="h-9 w-9 shrink-0 rounded-xl border border-white/10 bg-white object-contain" />
+                  )}
+                  <h3 id="project-modal-title" className="text-2xl font-medium text-text-primary sm:text-3xl">
+                    {project.title}
+                  </h3>
+                </div>
                 <p className="mt-2 text-sm leading-relaxed text-text-primary/70">{project.role}</p>
               </div>
               <p className="text-sm font-light leading-relaxed text-text-primary/90 sm:text-[15px]">{project.overview}</p>
@@ -265,7 +272,7 @@ export const SelectedWorks: React.FC<SelectedWorksProps> = ({ onOpenCaseStudy })
             </h2>
             <p className="text-sm md:text-base text-muted font-body leading-relaxed mt-2">
               {TOTAL} projects: product work at BizMagnets, client sites, my own products and 3D experiments. Open any card for the full story,
-              stack and links.
+              stack and links, or browse them all with {ARCHIVE.length} smaller experiments.
             </p>
           </div>
         </div>
@@ -317,10 +324,16 @@ export const SelectedWorks: React.FC<SelectedWorksProps> = ({ onOpenCaseStudy })
                   <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                     <h3 className="text-sm md:text-base font-semibold text-white leading-tight">{project.title}</h3>
                     <p className="text-[10px] md:text-xs text-white/60 italic mt-0.5">{project.subtitle}</p>
-                    <p className="mt-2 hidden font-mono text-[10px] leading-relaxed text-white/50 md:block">
-                      {project.stack.slice(0, 3).join(' · ')}
-                      {project.stack.length > 3 && ` · +${project.stack.length - 3}`}
-                    </p>
+                    <div className="mt-2.5 flex items-center gap-1.5" aria-label={`Stack: ${project.stack.join(', ')}`}>
+                      {project.stack.slice(0, isMobile ? 4 : 6).map((tech) => (
+                        <span key={tech} title={tech} className="flex h-5 w-5 items-center justify-center rounded-md bg-black/50 backdrop-blur-sm md:h-6 md:w-6">
+                          <TechIcon name={tech} className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                        </span>
+                      ))}
+                      {project.stack.length > (isMobile ? 4 : 6) && (
+                        <span className="text-[10px] font-medium text-white/60">+{project.stack.length - (isMobile ? 4 : 6)}</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -350,37 +363,65 @@ export const SelectedWorks: React.FC<SelectedWorksProps> = ({ onOpenCaseStudy })
           aria-controls="all-projects"
           className="mt-8 inline-flex items-center gap-2 rounded-full border border-stroke bg-surface/40 px-5 py-2.5 text-sm font-medium text-text-primary transition-colors duration-300 hover:bg-surface"
         >
-          {showAll ? 'Hide the list' : `Browse all ${TOTAL} projects`}
+          {showAll ? 'Hide the list' : `Browse all ${TOTAL + ARCHIVE.length} projects`}
           <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} />
         </button>
         <AnimatePresence initial={false}>
           {showAll && (
-            <motion.ul
+            <motion.div
               id="all-projects"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-              className="grid w-full grid-cols-2 gap-3 overflow-hidden pt-8 sm:grid-cols-3 lg:grid-cols-4"
+              className="w-full overflow-hidden"
             >
-              {PROJECTS.map((project) => (
-                <li key={project.id}>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProject(project)}
-                    className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-stroke bg-surface/30 text-left transition-colors duration-300 hover:bg-surface"
-                  >
-                    <span className="relative block aspect-[16/10] w-full overflow-hidden border-b border-stroke">
-                      <ProjectVisual project={project} variant="wide" className="transition-transform duration-500 group-hover:scale-105" />
-                    </span>
-                    <span className="flex flex-col gap-0.5 p-3.5">
-                      <span className="text-sm font-semibold text-text-primary/90 group-hover:text-text-primary">{project.title}</span>
-                      <span className="text-[11px] leading-snug text-muted">{project.subtitle}</span>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </motion.ul>
+              <ul className="grid w-full grid-cols-2 gap-3 pt-8 sm:grid-cols-3 lg:grid-cols-4">
+                {PROJECTS.map((project) => (
+                  <li key={project.id}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProject(project)}
+                      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-stroke bg-surface/30 text-left transition-colors duration-300 hover:bg-surface"
+                    >
+                      <span className="relative block aspect-[16/10] w-full overflow-hidden border-b border-stroke">
+                        <ProjectVisual project={project} variant="wide" className="transition-transform duration-500 group-hover:scale-105" />
+                      </span>
+                      <span className="flex flex-col gap-0.5 p-3.5">
+                        <span className="text-sm font-semibold text-text-primary/90 group-hover:text-text-primary">{project.title}</span>
+                        <span className="text-[11px] leading-snug text-muted">{project.subtitle}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Smaller public repos */}
+              <div className="mt-12 border-t border-stroke pt-10">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Also on GitHub · experiments and early projects</h3>
+                <ul className="mt-5 grid gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+                  {ARCHIVE.map((repo) => (
+                    <li key={repo.href}>
+                      <a
+                        href={repo.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group flex items-start gap-3 rounded-xl px-3 py-3 transition-colors duration-300 hover:bg-surface/60"
+                      >
+                        <span className="mt-0.5 w-9 shrink-0 font-mono text-[10px] text-muted">{repo.year}</span>
+                        <span className="flex min-w-0 flex-col gap-0.5">
+                          <span className="flex items-center gap-1.5 text-sm font-medium text-text-primary/90 group-hover:text-text-primary">
+                            {repo.name}
+                            <ArrowUpRight className="h-3.5 w-3.5 text-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                          </span>
+                          <span className="text-xs leading-relaxed text-muted">{repo.description}</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>
