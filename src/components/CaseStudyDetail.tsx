@@ -42,19 +42,19 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ id, onBack, on
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative min-h-screen bg-bg pb-24 text-text-primary selection:bg-text-primary/25">
+      <div className="relative min-h-screen w-full overflow-x-hidden bg-bg pb-24 text-text-primary selection:bg-text-primary/25">
         {/* Floating reader header */}
-        <div className="pointer-events-none sticky left-0 right-0 top-6 z-50 mx-auto w-full max-w-[94%] px-2 sm:px-4 md:max-w-[750px]">
+        <div className="pointer-events-none sticky left-0 right-0 top-3 z-50 mx-auto w-full max-w-[96%] px-2 sm:top-6 sm:px-4 md:max-w-[750px]">
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="pointer-events-auto relative flex w-full items-center justify-between gap-3 rounded-full border border-white/10 bg-surface/85 py-2 pl-5 pr-2 shadow-xl backdrop-blur-xl"
+            className="pointer-events-auto relative flex w-full items-center justify-between gap-2 sm:gap-3 rounded-full border border-white/10 bg-surface/85 py-2 pl-3.5 pr-2 sm:pl-5 shadow-xl backdrop-blur-xl"
           >
             <button
               type="button"
               onClick={onBack}
-              className="group flex items-center gap-2 text-xs font-semibold text-muted transition-colors hover:text-text-primary focus:outline-none focus-visible:text-text-primary"
+              className="group flex items-center gap-1.5 sm:gap-2 text-xs font-semibold text-muted transition-colors hover:text-text-primary focus:outline-none focus-visible:text-text-primary"
             >
               <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
               <span>Back</span>
@@ -87,16 +87,16 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ id, onBack, on
           </motion.div>
         </div>
 
-        <article key={study.id} aria-labelledby="case-detail-title" className="relative z-10 mx-auto mt-16 w-full max-w-[860px] px-5 sm:mt-24 md:px-8">
+        <article key={study.id} aria-labelledby="case-detail-title" className="relative z-10 mx-auto mt-14 w-full min-w-0 max-w-[860px] px-4 sm:mt-24 sm:px-6 md:px-8">
           {/* Cover */}
           <motion.header
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-col gap-6"
+            className="flex w-full min-w-0 flex-col gap-5 sm:gap-6"
           >
-            <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
-              <span className="rounded-full border border-white/5 bg-surface px-3.5 py-1.5 font-semibold tracking-wide text-text-primary">{study.kind}</span>
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs text-muted">
+              <span className="rounded-full border border-white/5 bg-surface px-3 py-1 sm:px-3.5 sm:py-1.5 font-semibold tracking-wide text-text-primary">{study.kind}</span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" />
                 {study.date}
@@ -107,27 +107,27 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ id, onBack, on
                 {readingMinutes(study)} min read
               </span>
             </div>
-            <p className="text-sm font-medium text-text-primary/70">{study.project}</p>
+            <p className="text-sm font-medium text-text-primary/70 break-words">{study.project}</p>
             <h1
               id="case-detail-title"
-              className="font-display text-3xl font-medium leading-[1.12] tracking-tight text-text-primary sm:text-4xl md:text-5xl lg:text-6xl"
+              className="font-display text-2xl font-medium leading-[1.15] tracking-tight text-text-primary break-words sm:text-4xl md:text-5xl lg:text-6xl"
             >
               {study.title}
             </h1>
-            <p className="mt-1 max-w-[720px] border-l-2 border-stroke pl-5 text-base italic leading-relaxed text-muted sm:text-lg md:text-xl">
+            <p className="mt-1 max-w-[720px] border-l-2 border-stroke pl-4 sm:pl-5 text-sm sm:text-base italic leading-relaxed text-muted break-words md:text-xl">
               {study.summary}
             </p>
-            <div className="relative mt-4 aspect-[16/10] w-full overflow-hidden rounded-[1.6rem] border border-stroke shadow-xl sm:aspect-[16/9] sm:rounded-[2rem]">
+            <div className="relative mt-3 sm:mt-4 aspect-[16/10] w-full overflow-hidden rounded-xl sm:rounded-[2rem] border border-stroke shadow-xl sm:aspect-[16/9]">
               <Illustration id={study.cover} className="absolute inset-0 h-full w-full" />
             </div>
           </motion.header>
 
           {/* At a glance */}
-          <motion.dl {...fadeUp} className="mt-10 grid gap-6 rounded-[1.6rem] border border-stroke bg-surface/40 p-6 sm:grid-cols-[1fr_1.4fr] sm:p-8">
-            <div className="flex flex-col gap-6">
+          <motion.dl {...fadeUp} className="mt-8 sm:mt-10 grid w-full min-w-0 gap-6 rounded-[1.4rem] border border-stroke bg-surface/40 p-5 sm:grid-cols-[1fr_1.4fr] sm:rounded-[1.6rem] sm:p-8">
+            <div className="flex flex-col gap-5 sm:gap-6 min-w-0">
               <div>
                 <dt className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Role</dt>
-                <dd className="mt-1.5 text-sm leading-relaxed text-text-primary/90">{study.role}</dd>
+                <dd className="mt-1.5 text-sm leading-relaxed text-text-primary/90 break-words">{study.role}</dd>
               </div>
               {study.links.length > 0 && (
                 <div>
@@ -140,9 +140,9 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ id, onBack, on
                 </div>
               )}
             </div>
-            <div>
+            <div className="min-w-0">
               <dt className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Stack</dt>
-              <dd className="mt-2">
+              <dd className="mt-2 w-full">
                 <StackChips stack={study.stack} />
               </dd>
             </div>
@@ -150,12 +150,12 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ id, onBack, on
 
           {/* Story */}
           {study.sections.map((section) => (
-            <motion.section key={section.heading} {...fadeUp} className="mt-14 flex flex-col gap-5">
-              <h2 className="flex items-center gap-4 font-display text-3xl font-normal tracking-tight text-text-primary sm:text-4xl">
-                <span aria-hidden className="accent-gradient h-6 w-[3px] rounded-full" />
+            <motion.section key={section.heading} {...fadeUp} className="mt-10 sm:mt-14 flex w-full min-w-0 max-w-full flex-col gap-4 sm:gap-5">
+              <h2 className="flex items-center gap-3 sm:gap-4 font-display text-2xl sm:text-3xl font-normal tracking-tight text-text-primary">
+                <span aria-hidden className="accent-gradient h-5 sm:h-6 w-[3px] rounded-full" />
                 {section.heading}
               </h2>
-              <div className="flex flex-col gap-5 font-body text-[15px] font-light leading-[1.85] text-text-primary/90 sm:text-base">
+              <div className="flex w-full min-w-0 max-w-full flex-col gap-4 sm:gap-5 font-body text-[14.5px] sm:text-[15px] font-light leading-[1.8] sm:leading-[1.85] text-text-primary/90 sm:text-base">
                 {section.blocks.map((block, i) => (
                   <BlockView key={i} block={block} />
                 ))}
@@ -163,10 +163,10 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ id, onBack, on
             </motion.section>
           ))}
 
-          <motion.figure {...fadeUp} className="relative mt-14 overflow-hidden rounded-2xl border border-stroke bg-surface/60 p-6 sm:p-8">
+          <motion.figure {...fadeUp} className="relative mt-10 sm:mt-14 w-full max-w-full overflow-hidden rounded-xl sm:rounded-2xl border border-stroke bg-surface/60 p-5 sm:p-8">
             <span aria-hidden className="accent-gradient absolute inset-y-0 left-0 w-[3px]" />
-            <figcaption className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Principle</figcaption>
-            <blockquote className="font-display text-2xl italic leading-snug text-text-primary sm:text-3xl">{study.principle}</blockquote>
+            <figcaption className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Principle</figcaption>
+            <blockquote className="font-display text-xl sm:text-2xl md:text-3xl italic leading-snug text-text-primary break-words">{study.principle}</blockquote>
           </motion.figure>
 
           {/* Keep reading */}

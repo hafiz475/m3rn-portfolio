@@ -19,10 +19,16 @@
   padding: 0;
 }
 
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background-color: hsl(var(--bg));
   color: hsl(var(--text));
   font-family: 'Inter', sans-serif;
+  max-width: 100%;
   overflow-x: hidden;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
